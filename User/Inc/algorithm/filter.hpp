@@ -18,9 +18,7 @@ class Filter{
      * 构造时不会填充缓冲区，首次调用 Filter_calculate 时根据实现决定如何处理不足窗口的数据。
      */
     Filter(int WINDOW_SIZES,bool SWITCH):WINDOW_SIZES(WINDOW_SIZES),SWITCH(SWITCH){
-        if(WINDOW_SIZES<=0){
-            this->WINDOW_SIZES=10;
-        }//为了避免错误输入，强制设定一个默认值
+        if(WINDOW_SIZES<=0) this->WINDOW_SIZES=10;
     }
 
     /**
@@ -39,5 +37,9 @@ class Filter{
     int WINDOW_SIZES;
     bool SWITCH;
     std::vector<float> buffer;
+
+    // 新增用于环形缓冲的状态，避免每次 erase/shift
+    int head = 0;        // 下一个被覆盖的位置
+    float sum = 0.0f;    // 当前窗口和，用于 O(1) 计算平均
 };
 }
