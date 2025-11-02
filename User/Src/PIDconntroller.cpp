@@ -3,19 +3,22 @@
 namespace algorithm::pid_controller{
     void PID_Controller::PID_init()
     {
-        integral = 0.0f;
-        previous_error = 0.0f;
+        error=0;
+        pre_error=0;
+        integral=0 ;
+        derivative=0;
+        output=0;
     }
     float PID_Controller::PID_calculate(float target_point, float real_value)
     {
         if(!SWITCH){
             return 0.0f;
         }
-        float error = target_point - real_value;
+        error = target_point - real_value;
         integral += error;
-        float derivative = error - previous_error;
-        previous_error = error;
-        float output = Kp * error + Ki * integral + Kd * derivative;
+        derivative = error - pre_error;
+        pre_error = error;
+        output = Kp * error + Ki * integral + Kd * derivative;
         if(output > OUT_MAX){
             output = OUT_MAX;
         }else if(output < OUT_MIN){

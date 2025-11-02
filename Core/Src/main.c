@@ -101,15 +101,6 @@ int main(void)
   MX_TIM4_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
-  compareunity1_raise=0;
-  compareunity3_fall=27200*0.4;
-  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_TIMER_A);//打开HRTIM1的定时器A
-  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_MASTER);
-  //__HAL_HRTIM_SETCOMPARE(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_COMPAREUNIT_1,compareunity1_raise);
-  //__HAL_HRTIM_SETCOMPARE(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_COMPAREUNIT_3,compareunity3_fall);
-  HAL_HRTIM_WaveformOutputStart(&hhrtim1,HRTIM_OUTPUT_TA1 | HRTIM_OUTPUT_TA2);//打开HRTIM1的·通道CH1 CH2
-
- 
 
   /* USER CODE END 2 */
 

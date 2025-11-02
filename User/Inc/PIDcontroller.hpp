@@ -6,7 +6,7 @@ namespace algorithm::pid_controller{
 
 class PID_Controller{
     public:
-    PID_Controller(float Kp,float Ki,float Kd,float OUT_MAX,float OUT_MIN,bool SWITCH):Kp(Kp),Ki(Ki),Kd(Kd),OUT_MAX(OUT_MAX),OUT_MIN(OUT_MIN),SWITCH(SWITCH),previous_error(0),integral(0){};
+    PID_Controller(float Kp,float Ki,float Kd,float OUT_MAX,float OUT_MIN,bool SWITCH):Kp(Kp),Ki(Ki),Kd(Kd),pre_error(0),integral(0),OUT_MAX(OUT_MAX),OUT_MIN(OUT_MIN),SWITCH(SWITCH){};
     void PID_init();
     float PID_calculate(float target_point, float real_value);
     
@@ -14,10 +14,13 @@ class PID_Controller{
     float Kp;
     float Ki;
     float Kd;
+    float error;
+    float pre_error;
+    float integral ;
+    float derivative;
+    float output;
     float OUT_MAX;
     float OUT_MIN;
     bool SWITCH;
-    float previous_error;
-    float integral;
 };
 }

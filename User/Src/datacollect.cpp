@@ -1,8 +1,5 @@
 #include "datacollect.hpp"
 #include "adc.h"
-#include "main.h"
-#include "stm32g4xx_hal_adc.h"
-#include <cstdint>
 
 void datacollect::DataCollector::Data_init()
 {
