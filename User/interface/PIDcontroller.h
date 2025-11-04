@@ -1,19 +1,6 @@
 #pragma once
 #include "main.h"
-#include <vector>
-
-namespace algorithm::pid_controller {
-
-class PID_Controller {
-public:
-  PID_Controller(float Kp, float Ki, float Kd, float OUT_MAX, float OUT_MIN,
-                 bool SWITCH)
-      : Kp(Kp), Ki(Ki), Kd(Kd), pre_error(0), integral(0), OUT_MAX(OUT_MAX),
-        OUT_MIN(OUT_MIN), SWITCH(SWITCH) {};
-  void PID_init();
-  float PID_calculate(float target_point, float real_value);
-
-private:
+typedef struct {
   float Kp;
   float Ki;
   float Kd;
@@ -25,5 +12,9 @@ private:
   float OUT_MAX;
   float OUT_MIN;
   bool SWITCH;
-};
-} // namespace algorithm::pid_controller
+} PID_Configs;
+void PID_init(PID_Configs *pid_configs);
+void PID_set(PID_Configs *pid_configs, float Kp, float Ki, float Kd,
+             float OUT_MAX, float OUT_MIN, bool SWITCH);
+float PID_calculate(PID_Configs *pid_configs, float target_point,
+                    float real_value);

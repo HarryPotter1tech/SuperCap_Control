@@ -1,27 +1,36 @@
-#include "PIDcontroller.hpp"
+#include "PIDcontroller.h"
 
-namespace algorithm::pid_controller {
-void PID_Controller::PID_init() {
-  error = 0;
-  pre_error = 0;
-  integral = 0;
-  derivative = 0;
-  output = 0;
+void PID_init(PID_Configs *pid_configs) {
+  pid_configs->error = 0;
+  pid_configs->pre_error = 0;
+  pid_configs->integral = 0;
+  pid_configs->derivative = 0;
+  pid_configs->output = 0;
 }
-float PID_Controller::PID_calculate(float target_point, float real_value) {
-  if (!SWITCH) {
-    return 0.0f;
-  }
-  error = target_point - real_value;
-  integral += error;
-  derivative = error - pre_error;
-  pre_error = error;
-  output = Kp * error + Ki * integral + Kd * derivative;
-  if (output > OUT_MAX) {
-    output = OUT_MAX;
-  } else if (output < OUT_MIN) {
-    output = OUT_MIN;
-  }
-  return output;
+void PID_set(PID_Configs *pid_configs, float Kp, float Ki, float Kd,
+             float OUT_MAX, float OUT_MIN, bool SWITCH) {
+  pid_configs->SWITCH = SWITCH;
+  pid_configs->Kp = Kp;
+  pid_configs->Ki = Ki;
+  pid_configs->Kd = Kd;
 }
-} // namespace algorithm::pid_controller
+
+float PID_calculate(PID_Configs *pid_configs, float target_point,
+                    float real_value) {
+  if (!pid_configs->SWITCH) {
+    return real_value;
+  }
+  pid_configs->error = target_point - real_value;
+  pid_configs->integral += pid_configs->error;
+  pid_configs->derivative = pid_configs->error - pid_configs->pre_error;
+  pid_configs->pre_error = pid_configs->error;
+  pid_configs->output = pid_configs->Kp * pid_configs->error +
+                        pid_configs->Ki * pid_configs->integral +
+                        pid_configs->Kd * pid_configs->derivative;
+  if (pid_configs->output > pid_configs->OUT_MAX) {
+    pid_configs->output = pid_configs->OUT_MAX;
+  } else if (pid_configs->output < pid_configs->OUT_MIN) {
+    pid_configs->output = pid_configs->OUT_MIN;
+  }
+  return pid_configs->output;
+}
