@@ -57,14 +57,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define V_CHASSIS_ADC_Pin GPIO_PIN_0
-#define V_CHASSIS_ADC_GPIO_Port GPIOA
-#define I_CHASSIS_ADC_Pin GPIO_PIN_1
-#define I_CHASSIS_ADC_GPIO_Port GPIOA
-#define I_CAP_ADC_Pin GPIO_PIN_2
-#define I_CAP_ADC_GPIO_Port GPIOA
-#define V_CAP_ADC_Pin GPIO_PIN_3
-#define V_CAP_ADC_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
