@@ -1,5 +1,5 @@
-#include "communicate.h"
-#include "datacollect.h"
+#include "CAN_communicate.h"
+#include "Data_collect.h"
 
 void CAN_send() {
 
