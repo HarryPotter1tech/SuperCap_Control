@@ -50,3 +50,8 @@ typedef struct {
   uint16_t I_CAP_ADC;     // 电容组端电流
   uint32_t DataArray[4];  // ADC采样数组
 } datacollect;
+
+extern CAN_TX can_tx;
+extern CAN_RX can_rx;
+extern mosdriver mos_driver;
+extern datacollect adc_data;
