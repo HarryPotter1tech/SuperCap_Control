@@ -15,10 +15,10 @@ void PID_set(PID_Configs *pid_configs, float Kp, float Ki, float Kd,
   pid_configs->Kd = Kd;
 }
 
-float PID_calculate(PID_Configs *pid_configs, float target_point,
+void PID_calculate(PID_Configs *pid_configs, float target_point,
                     float real_value) {
   if (!pid_configs->SWITCH) {
-    return real_value;
+    pid_configs->output = 0;
   }
   pid_configs->error = target_point - real_value;
   pid_configs->integral += pid_configs->error;
@@ -32,5 +32,4 @@ float PID_calculate(PID_Configs *pid_configs, float target_point,
   } else if (pid_configs->output < pid_configs->OUT_MIN) {
     pid_configs->output = pid_configs->OUT_MIN;
   }
-  return pid_configs->output;
 }
