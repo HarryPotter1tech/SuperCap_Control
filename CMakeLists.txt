@@ -50,6 +50,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/User/interface"
+    "${CMAKE_SOURCE_DIR}/User/math_tools"
     "${CMAKE_SOURCE_DIR}/User/data"
     "${CMAKE_SOURCE_DIR}/Core/Inc"
 )
