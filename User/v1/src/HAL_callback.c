@@ -14,15 +14,18 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
     Data_process(&adc_data);
   }
 }
+
+
 void HAL_HRTIM_Compare4EventCallback(HRTIM_HandleTypeDef *hhrtim,
                                       uint32_t TimerIdx) {
   if (hhrtim->Instance == HRTIM1 && TimerIdx == HRTIM_TIMERINDEX_TIMER_A) {
     Data_collect(&adc_data);
   }
 }
+
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if (htim->Instance == TIM6) {
-
     ADC_Calibration(&adc_data, &adc_calibrated_data,
                     Get_voltage_chassis(&adc_data),
                     Get_current_chassis(&adc_data), Get_voltage_cap(&adc_data),
@@ -46,6 +49,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     CAN_disconnect_detection();
   }
 }
+
 
 /*控制环路运行流程图*/
 //1 所有模块初始化

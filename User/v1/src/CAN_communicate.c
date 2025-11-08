@@ -4,9 +4,14 @@
 void CAN_send() {
 
 }
+
+
 void CAN_receive() {
 
 }
+
+
 void CAN_disconnect_detection() {
 
 }
+
