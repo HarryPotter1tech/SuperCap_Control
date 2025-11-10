@@ -25,7 +25,7 @@ void HAL_HRTIM_Compare4EventCallback(HRTIM_HandleTypeDef *hhrtim,
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if (htim->Instance == TIM8) {
-    
+
     // 2kHz 功率环
     if (PID_FREQUENCY_INDEX == __HAL_TIM_GET_COUNTER(&htim8) / 50) {
       PID_calculate(&voltage_pid_configs, power_pid_configs.output,
@@ -33,21 +33,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     }
 
     // 10kHz 电流环
-    if (PID_FREQUENCY_INDEX == __HAL_TIM_GET_COUNTER(&htim8) / 10) {
+    else if (PID_FREQUENCY_INDEX == __HAL_TIM_GET_COUNTER(&htim8) / 10) {
       PID_calculate(&power_pid_configs, can_rx.targetChassisPower,
                     adc_calibrated_data.V_CHASSIS_ADC *
                         adc_calibrated_data.I_CHASSIS_ADC);
     }
 
     // 100kHz 电流环
-    ADC_Calibration(&adc_data, &adc_calibrated_data,
-                    Get_voltage_chassis(&adc_data),
-                    Get_current_chassis(&adc_data), Get_voltage_cap(&adc_data),
-                    Get_current_cap(&adc_data));
-    PID_calculate(&current_pid_configs, voltage_pid_configs.output,
-                  adc_calibrated_data.I_CHASSIS_ADC);
-    MosDriver_chassis_set(current_pid_configs.output, &mos_driver);
-    MosDriver_chassis_set(1 - current_pid_configs.output, &mos_driver);
+    else {
+      ADC_Calibration(&adc_data, &adc_calibrated_data,
+                      Get_voltage_chassis(&adc_data),
+                      Get_current_chassis(&adc_data),
+                      Get_voltage_cap(&adc_data), Get_current_cap(&adc_data));
+      PID_calculate(&current_pid_configs, voltage_pid_configs.output,
+                    adc_calibrated_data.I_CHASSIS_ADC);
+      MosDriver_chassis_set(current_pid_configs.output, &mos_driver);
+      MosDriver_chassis_set(1 - current_pid_configs.output, &mos_driver);
+    }
   }
   // 1kHz CAN发送和断连检测
   if (htim->Instance == TIM16) {

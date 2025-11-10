@@ -68,20 +68,21 @@ typedef struct {
 
 // 全局变量声明
 // CAN通信相关全局变量
-extern CAN_TX can_tx;// 全局CAN发送数据结构体
-extern CAN_RX can_rx;// 全局CAN接收数据结构体
+extern CAN_TX can_tx;// CAN发送数据结构体
+extern CAN_RX can_rx;// CAN接收数据结构体
 
 // MOS驱动相关全局变量
-extern mosdriver mos_driver;// 全局MOS驱动数据结构体
+extern mosdriver mos_driver;// MOS驱动数据结构体
 
 // ADC采集相关全局变量
-extern datacollect adc_data;// 全局ADC采集数据结构体
-extern datacollect adc_calibrated_data;// 全局ADC校准后数据结构体
+extern datacollect adc_data;// ADC采集数据结构体
+extern datacollect adc_calibrated_data;// ADC校准后数据结构体
+extern double ADC_CALIBRATION_CONFIGS_BOARD[4][2];
 
 // PID控制相关全局变量
-extern PID_Configs current_pid_configs;// 全局电流环PID配置结构体
-extern PID_Configs voltage_pid_configs;// 全局电压环PID配置结构体
-extern PID_Configs power_pid_configs;// 全局功率环PID配置结构体
+extern PID_Configs current_pid_configs;// 电流环PID配置结构体
+extern PID_Configs voltage_pid_configs;// 电压环PID配置结构体
+extern PID_Configs power_pid_configs;// 功率环PID配置结构体
 
 // 控制算法转换系数
 extern float power_offset_to_voltage;// 功率环输出转电压环目标值的转换系数

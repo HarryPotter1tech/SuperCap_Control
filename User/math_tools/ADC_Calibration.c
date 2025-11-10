@@ -1,13 +1,32 @@
 #include "ADC_Calibration.h"
 #include "module_data.h"
-#include "stm32g4xx_hal_conf.h"
-#include <stdint.h>
+
+bool ADC_ID_init()//要做RMCS_ID/LEGGED_ID与SUPERCAP_ID  ADC_CALIBRATION_CONFIGS的匹配检测
+{
+    uint32_t uid[3];
+    uid[0] = HAL_GetUIDw0();
+    uid[1] = HAL_GetUIDw1();
+    uid[2] = HAL_GetUIDw2();
+    for(int i=0;i<4;i++)
+    {
+        if(uid[0]==SUPERCAP_ID[i][0]&&uid[1]==SUPERCAP_ID[i][1]&&uid[2]==SUPERCAP_ID[i][2])//匹配成功,分发对应ADC_CALIBRATION_CONFIGS
+        {
+            for (int j = 0; j < 4; j++) {
+                ADC_CALIBRATION_CONFIGS_BOARD[j][0] = ADC_CALIBRATION_CONFIGS[i][j][0];
+                ADC_CALIBRATION_CONFIGS_BOARD[j][1] = ADC_CALIBRATION_CONFIGS[i][j][1];
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void ADC_Calibration(datacollect* adc_data,datacollect* adc_calibrated_data,uint16_t RAW_V_CHASSIS_ADC,uint16_t RAW_I_CHASSIS_ADC,
                          uint16_t RAW_V_CAP_ADC,uint16_t RAW_I_CAP_ADC) {
 
-    adc_calibrated_data->V_CHASSIS_ADC = ADC_CALIBRATION_CONFIGS[0][0] * RAW_V_CHASSIS_ADC + ADC_CALIBRATION_CONFIGS[0][1];
-    adc_calibrated_data->I_CHASSIS_ADC = ADC_CALIBRATION_CONFIGS[1][0] * RAW_I_CHASSIS_ADC + ADC_CALIBRATION_CONFIGS[1][1];
-    adc_calibrated_data->V_CAP_ADC = ADC_CALIBRATION_CONFIGS[2][0] * RAW_V_CAP_ADC + ADC_CALIBRATION_CONFIGS[2][1];
-    adc_calibrated_data->I_CAP_ADC = ADC_CALIBRATION_CONFIGS[3][0] * RAW_I_CAP_ADC + ADC_CALIBRATION_CONFIGS[3][1];
+    adc_calibrated_data->V_CHASSIS_ADC = ADC_CALIBRATION_CONFIGS_BOARD[0][0] * RAW_V_CHASSIS_ADC + ADC_CALIBRATION_CONFIGS_BOARD[0][1];
+    adc_calibrated_data->I_CHASSIS_ADC = ADC_CALIBRATION_CONFIGS_BOARD[1][0] * RAW_I_CHASSIS_ADC + ADC_CALIBRATION_CONFIGS_BOARD[1][1];
+    adc_calibrated_data->V_CAP_ADC = ADC_CALIBRATION_CONFIGS_BOARD[2][0] * RAW_V_CAP_ADC + ADC_CALIBRATION_CONFIGS_BOARD[2][1];
+    adc_calibrated_data->I_CAP_ADC = ADC_CALIBRATION_CONFIGS_BOARD[3][0] * RAW_I_CAP_ADC + ADC_CALIBRATION_CONFIGS_BOARD[3][1];
 }

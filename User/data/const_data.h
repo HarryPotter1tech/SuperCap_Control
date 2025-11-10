@@ -6,17 +6,17 @@
 //设备固有常量定义
 const int RMCS_ID = 0x1fe;   // RMCS 设备ID
 const int LEGGED_ID = 0x427; // Legged 设备ID
-const uint32_t SUPERCAP_ID[3] = {0x0034003C, 0x534B5009,
-                                 0x20343732}; // Supercap 设备ID//测试板的ID
+const uint32_t SUPERCAP_ID[4][3] = {{{0x0034003C, 0x534B5009,
+                                 0x20343732}}}; // Supercap 设备ID//测试板的ID
 const int DEFAULT_POWER_CHASSIS = 35.0f;      // 初始默认底盘功率（单位：W）
 
 // ADC校准参数定义
-const double ADC_CALIBRATION_CONFIGS[4][2] = {
+const double ADC_CALIBRATION_CONFIGS[4][4][2] = {{
     {0.0f, 0.0f},  // V_CHASSIS_Scale, V_CHASSIS_Bias
     {0.0f, 0.0f},  // V_CAP_Scale, V_CAP_Bias
     {0.01289f, 0.01289f}, // I_CHASSIS_Scale, I_CHASSIS_Bias
     {0.01289f, 0.01289f}  // I_CAP_Scale, I_CAP_Bias}
-};
+}}; // ADC校准参数配置数组
 
 //底盘工作电压范围
 const float V_CHASSIS_MAX = 26.0f;
