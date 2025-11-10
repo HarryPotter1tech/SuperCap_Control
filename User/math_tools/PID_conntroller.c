@@ -7,13 +7,18 @@ void PID_init(PID_Configs *pid_configs) {
   pid_configs->derivative = 0;
   pid_configs->output = 0;
 }
+
+
 void PID_set(PID_Configs *pid_configs, float Kp, float Ki, float Kd,
              float OUT_MAX, float OUT_MIN, bool SWITCH) {
   pid_configs->SWITCH = SWITCH;
   pid_configs->Kp = Kp;
   pid_configs->Ki = Ki;
   pid_configs->Kd = Kd;
+  pid_configs->OUT_MAX = OUT_MAX;
+  pid_configs->OUT_MIN = OUT_MIN;
 }
+
 
 void PID_calculate(PID_Configs *pid_configs, float target_point,
                     float real_value) {

@@ -38,4 +38,5 @@ const int MAX_POWER_LOST_DETECTION_TIME = 1000;//最大掉电检测时间
 const int MAX_CAN_DISCONNECT_DETECTION_TIME = 500;//最大CAN断联检测时间
 extern int POWER_LOST_DETECTION_TIME_INDEX;//掉电检测时间计数变量
 extern int CAN_DISCONNECT_DETECTION_TIME_INDEX;//CAN断联检测时间计数变量
+extern uint32_t PID_FREQUENCY_INDEX;//PID控制频率计数变量
 

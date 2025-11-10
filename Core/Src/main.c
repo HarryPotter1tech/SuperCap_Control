@@ -96,7 +96,6 @@ int main(void)
   MX_HRTIM1_Init();
   MX_TIM1_Init();
   MX_TIM16_Init();
-  MX_TIM4_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
 
