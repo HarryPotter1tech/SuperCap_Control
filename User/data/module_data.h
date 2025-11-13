@@ -1,10 +1,11 @@
 #pragma once
 #include <stdint.h>
+#include <stdbool.h>
 #include <sys/_intsup.h>
 
 // 控制算法开关（放在枚举之外，作为独立的常量）
-bool control_v1 = 0; // 控制算法v1
-bool control_v2 = 0; // 控制算法v2
+#define control_v1 0 // 控制算法v1
+#define control_v2 0 // 控制算法v2
 
 /*这里有两个版本是由于版本一是洪泓霖学长设计的控制算法，版本二是我
 新设计的控制算法，本套代码主要目的是重构洪泓霖学长的代码，提供更好

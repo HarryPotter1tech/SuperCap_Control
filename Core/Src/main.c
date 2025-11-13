@@ -32,31 +32,13 @@
 #include "MOS_driver.h"
 #include "PID_controller.h"
 #include "HAL_callback.h"
-#include "System_init.h"
+#include "SuperCap_init.h"
 #include "const_data.h"
 #include "module_data.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-CAN_TX can_tx;// CAN发送数据结构体全局定义
-CAN_RX can_rx;// CAN接收数据结构体全局定义
-
-// MOS驱动相关全局变量
-mosdriver mos_driver;// MOS驱动数据结构体全局定义
-
-// ADC采集相关全局变量
-datacollect adc_data;// ADC采集数据结构体全局定义
-datacollect adc_calibrated_data;// ADC校准后数据结构体全局定义
-
-// PID控制相关全局变量
-PID_Configs current_pid_configs;// 电流环PID配置结构体全局定义
-PID_Configs voltage_pid_configs;// 电压环PID配置结构体全局定义
-PID_Configs power_pid_configs;// 功率环PID配置结构体全局定义
-
-// 控制算法转换系数
-float power_offset_to_voltage;// 功率环输出转电压环目标值的转换系数全局定义
-float voltage_offset_to_current;// 电压环输出转电流环目标值的转换系数全局定义
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -72,11 +54,7 @@ float voltage_offset_to_current;// 电压环输出转电流环目标值的转换
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t compareunity1_raise;
-uint16_t compareunity3_fall;
-int POWER_LOST_DETECTION_TIME_INDEX = 0; // 掉电检测时间计数变量全局定义
-int CAN_DISCONNECT_DETECTION_TIME_INDEX = 0; // CAN断开检测时间计数变量全局定义
-uint32_t PID_FREQUENCY_INDEX = 0; // PID频率计数变量全局定义
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -125,7 +103,7 @@ int main(void)
   MX_TIM16_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
-CAN_init();
+  SuperCap_init();
 
   /* USER CODE END 2 */
 

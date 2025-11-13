@@ -2,6 +2,8 @@
 #include "adc.h"
 #include "main.h"
 #include "stm32g4xx_hal_adc.h"
+#include "module_data.h"
+#include "const_data.h"
 #include <stdint.h>
 
 void Data_init(datacollect* data);               // 重置清零，初始化

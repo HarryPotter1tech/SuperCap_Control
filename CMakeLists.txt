@@ -34,7 +34,6 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
-# Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
 
 # Link directories setup
@@ -42,17 +41,32 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
 )
 
-# Add sources to executable
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
+# collect core and user sources and add to target
+file(GLOB_RECURSE CORE_SRCS
+    "${CMAKE_SOURCE_DIR}/Core/Src/*.c"
 )
 
-# Add include paths
+list(REMOVE_ITEM CORE_SRCS "${CMAKE_SOURCE_DIR}/Core/Src/system_stm32g4xx.c")
+
+file(GLOB_RECURSE USER_SRCS
+    "${CMAKE_SOURCE_DIR}/User/*.c"
+)
+
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+    ${CORE_SRCS}
+    ${USER_SRCS}
+)
+
+# add include paths (ensure headers like CAN_communicate.h 被找到)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    "${CMAKE_SOURCE_DIR}/User/interface"
-    "${CMAKE_SOURCE_DIR}/User/math_tools"
-    "${CMAKE_SOURCE_DIR}/User/data"
-    "${CMAKE_SOURCE_DIR}/Core/Inc"
+    ${CMAKE_SOURCE_DIR}/Core/Inc
+    ${CMAKE_SOURCE_DIR}/Drivers/STM32G4xx_HAL_Driver/Inc
+    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
+    ${CMAKE_SOURCE_DIR}/User
+    ${CMAKE_SOURCE_DIR}/User/interface
+    ${CMAKE_SOURCE_DIR}/User/data
+    ${CMAKE_SOURCE_DIR}/User/math_tools
+    ${CMAKE_SOURCE_DIR}/User/v1/src
 )
 
 # Add project symbols (macros)

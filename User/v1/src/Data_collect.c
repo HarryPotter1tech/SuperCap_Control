@@ -1,7 +1,4 @@
 #include "Data_collect.h"
-#include "adc.h"
-#include "stm32g4xx_hal_adc.h"
-#include <stdint.h>
 
 void Data_init(datacollect *data) {
   data->V_CHASSIS_ADC = 0;

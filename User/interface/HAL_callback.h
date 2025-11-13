@@ -1,6 +1,7 @@
 #pragma once
 #include "Data_collect.h"
 #include "module_data.h"
+#include "const_data.h"
 #include "adc.h"
 #include "hrtim.h"
 #include "tim.h"

@@ -1,5 +1,4 @@
 #include "ADC_Calibration.h"
-#include "module_data.h"
 
 bool ADC_ID_init()//要做RMCS_ID/LEGGED_ID与SUPERCAP_ID  ADC_CALIBRATION_CONFIGS的匹配检测
 {

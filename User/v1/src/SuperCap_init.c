@@ -1,4 +1,4 @@
-#include "SuperCap_Init.h"
+#include "SuperCap_init.h"
 #include "CAN_communicate.h"
 #include "PID_controller.h"
 #include "module_data.h"
