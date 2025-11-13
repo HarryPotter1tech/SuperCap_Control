@@ -1,6 +1,7 @@
 #pragma once
 #include "adc.h"
 #include "main.h"
+#include "ADC_Calibration.h"
 #include "stm32g4xx_hal_adc.h"
 #include "module_data.h"
 #include "const_data.h"

@@ -80,6 +80,6 @@ void MosDriver_dutylimit(mosdriver* driver, float duty)
     else
     {
         MosDriver_chassis_set(1.0,driver);
-        MosDriver_cap_set(1/duty,driver);
+        MosDriver_cap_set(1-duty,driver);
     }
 }
