@@ -9,5 +9,4 @@
 
 
 bool ADC_ID_init();
-void ADC_Calibration(datacollect* adc_data, datacollect* adc_calibrated_data, uint16_t RAW_V_CHASSIS_ADC, uint16_t RAW_V_CAP_ADC,
-                         uint16_t RAW_I_CHASSIS_ADC,uint16_t RAW_I_CAP_ADC);
+void ADC_Calibration(datacollect* adc_data);//对adc_data进行校准和转换然后存回adc_data

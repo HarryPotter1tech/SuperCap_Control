@@ -11,4 +11,4 @@
 #include "module_data.h"
 
 void SuperCap_init();//超级电容系统总初始化函数
-void SuperCap_reinit();//超级电容系统下电重启函数
+void SuperCap_softstart();//超级电容系统下电重启函数

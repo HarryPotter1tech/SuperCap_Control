@@ -40,7 +40,10 @@ typedef struct {
   uint16_t cap_compare3_index;
   uint16_t chassis_compare1_index;
   uint16_t chassis_compare3_index;
+  uint16_t compare4_index;//触发采样的比较值
   uint16_t Phase_shift_angle;
+  uint16_t cap_duty;
+  uint16_t chassis_duty;
 } mosdriver;
 
 // Data_collect模块的数据结构体定义
@@ -50,6 +53,10 @@ typedef struct {
   uint16_t V_CAP_ADC;     // 电容组端电压
   uint16_t I_CAP_ADC;     // 电容组端电流
   uint32_t DataArray[4];  // ADC采样数组
+  uint16_t V_CHASSIS_REAL; // 底盘端真实电压
+  uint16_t I_CHASSIS_REAL; // 底盘端真实电流
+  uint16_t V_CAP_REAL;     // 电容组端真实电压
+  uint16_t I_CAP_REAL;     // 电容组端真实电流
 } datacollect;
 
 // PID_controller模块的数据结构体定义

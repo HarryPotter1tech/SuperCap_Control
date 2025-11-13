@@ -26,6 +26,8 @@ extern const float I_CAP_MAX;
 //开关管驱动参数
 extern const float CYCLE_INDEX;
 extern const float HALF_CYCLE_INDEX;
+extern const float MAX_DUTY;
+extern const float MIN_DUTY;
 
 //保护机制时间常数定义
 extern const int MAX_POWER_LOST_DETECTION_TIME;//最大掉电检测时间

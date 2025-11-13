@@ -36,7 +36,15 @@ void MosDriver_cap_set(uint16_t cap_duty, mosdriver *driver) {
 }
 
 
-void MosDriver_start(mosdriver *driver) {
+void MosDriver_init(mosdriver *driver) {
+  driver->chassis_compare1_index=0.0;
+  driver->chassis_compare3_index=0.0;
+  driver->cap_compare1_index=0.0;
+  driver->cap_compare3_index=0.0;
+  driver->Phase_shift_angle=0.0;
+  driver->chassis_duty=0.0;
+  driver->cap_duty=0.0;
+  
   MosDriver_TIMER_init();
   HAL_Delay(2);
   MosDriver_CHANCEL_init();
@@ -54,3 +62,24 @@ void MosDriver_stop(mosdriver *driver) {
   driver->Phase_shift_angle = 0;
 }
 
+void MosDriver_dutylimit(mosdriver* driver, float duty)
+{
+    if(duty>MAX_DUTY)
+    {
+        duty=MAX_DUTY;
+    }
+    else if(duty<MIN_DUTY)
+    {
+        duty=MIN_DUTY;
+    }
+    if(duty<1.0)
+    {
+        MosDriver_chassis_set(duty,driver);
+        MosDriver_cap_set(1.0,driver);
+    }
+    else
+    {
+        MosDriver_chassis_set(1.0,driver);
+        MosDriver_cap_set(1/duty,driver);
+    }
+}

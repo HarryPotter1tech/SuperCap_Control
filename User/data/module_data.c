@@ -8,7 +8,6 @@ CAN_RX can_rx;
 mosdriver mos_driver;
 // Data_collect模块的数据结构体实例化
 datacollect adc_data;
-datacollect adc_calibrated_data;
 // PID_controller模块的数据结构体实例化
 PID_Configs voltage_pid_configs;// 电压环PID配置结构体全局定义
 PID_Configs current_pid_configs;// 电流环PID配置结构体全局定义

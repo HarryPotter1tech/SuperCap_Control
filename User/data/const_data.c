@@ -34,6 +34,8 @@ const float I_CAP_MAX = 15.0f;
 //开关管驱动参数
 const float CYCLE_INDEX = 27200.0f;
 const float HALF_CYCLE_INDEX = CYCLE_INDEX / 2;
+const float MAX_DUTY = V_CAP_MAX / V_CHASSIS_MIN;
+const float MIN_DUTY = V_CAP_MIN / V_CHASSIS_MAX;
 
 //保护机制时间常数定义
 const int MAX_POWER_LOST_DETECTION_TIME = 1000;//最大掉电检测时间

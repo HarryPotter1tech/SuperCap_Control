@@ -9,6 +9,6 @@
 #include "stm32g4xx_hal_hrtim.h"
 #include "stm32g4xx_hal_tim.h"
 
+void HAL_FDCAN_RxFifo0Msgallback(FDCAN_HandleTypeDef *hfdcan);
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc);
-void HAL_HRTIM_Compare4EventCallback(HRTIM_HandleTypeDef *hhrtim, uint32_t TimerIdx);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
