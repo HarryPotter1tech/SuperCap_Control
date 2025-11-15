@@ -11,7 +11,7 @@ const uint32_t SUPERCAP_ID[4][3] = { {0x12345678, 0x9ABCDEF0, 0x13579BDF},
 const int DEFAULT_POWER_CHASSIS = 45;      // 初始默认底盘功率（单位：W）
 
 // ADC校准参数定义
-const double ADC_CALIBRATION_CONFIGS[4][4][2] = {
+const float ADC_CALIBRATION_CONFIGS[4][4][2] = {
     { {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0} }, // Board 0
     { {1.1, -5.0}, {0.9, 3.0}, {1.05, -2.0}, {0.95, 1.0} }, // Board 1
     { {0.95, 4.0}, {1.05, -3.0}, {0.98, 2.0}, {1.02, -1.0} }, // Board 2
@@ -27,7 +27,7 @@ const float P_CHASSIS_MAX = 200.0f;
 const float P_CHASSIS_MIN = 35.0f; //底盘能量消耗至0后，机器人进入节能模式 35W
 
 //超级电容工作电压、电流范围
-const float V_CAP_MAX = 27.0f;
+const float V_CAP_MAX = 26.0f;
 const float V_CAP_MIN = 4.0f;
 const float I_CAP_MAX = 15.0f;
 

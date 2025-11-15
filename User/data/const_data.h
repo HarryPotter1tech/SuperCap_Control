@@ -9,7 +9,7 @@ extern const int LEGGED_ID; // Legged 设备ID
 extern const uint32_t SUPERCAP_ID[4][3]; // Supercap 设备ID//测试板的ID
 extern const int DEFAULT_POWER_CHASSIS;      // 初始默认底盘功率（单位：W）
 // ADC校准参数定义
-extern const double ADC_CALIBRATION_CONFIGS[4][4][2];
+extern const float ADC_CALIBRATION_CONFIGS[4][4][2];
 // I_CAP_Scale, I_CAP_Bias} // ADC校准参数配置数组
 
 //底盘工作电压范围

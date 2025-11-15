@@ -85,7 +85,7 @@ extern mosdriver mos_driver;// MOS驱动数据结构体
 // ADC采集相关全局变量
 extern datacollect adc_data;// ADC采集数据结构体
 extern datacollect adc_calibrated_data;// ADC校准后数据结构体
-extern double ADC_CALIBRATION_CONFIGS_BOARD[4][2];
+extern float ADC_CALIBRATION_CONFIGS_BOARD[4][2];
 
 // PID控制相关全局变量
 extern PID_Configs current_pid_configs;// 电流环PID配置结构体

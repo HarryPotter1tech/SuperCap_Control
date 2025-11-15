@@ -13,7 +13,7 @@ PID_Configs voltage_pid_configs;// 电压环PID配置结构体全局定义
 PID_Configs current_pid_configs;// 电流环PID配置结构体全局定义
 PID_Configs power_pid_configs;// 功率环PID配置结构体全局定义
 // ADC校准配置数组实例化
-double ADC_CALIBRATION_CONFIGS_BOARD[4][2] = {
+float ADC_CALIBRATION_CONFIGS_BOARD[4][2] = {
     {0.0, 0.0}, // V_CHASSIS
     {0.0, 0.0}, // I_CHASSIS
     {0.0, 0.0}, // V_CAP
