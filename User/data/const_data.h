@@ -1,7 +1,7 @@
 #pragma once
 #include "module_data.h"
 #include <stdint.h>
-#include <sys/_intsup.h>
+
 
 //设备固有常量定义
 extern const int RMCS_ID;   // RMCS 设备ID
@@ -24,8 +24,8 @@ extern const float V_CAP_MIN;
 extern const float I_CAP_MAX;
 
 //开关管驱动参数
-extern const float CYCLE_INDEX;
-extern const float HALF_CYCLE_INDEX;
+extern const uint32_t CYCLE_INDEX;
+extern const uint32_t HALF_CYCLE_INDEX;
 extern const float MAX_DUTY;
 extern const float MIN_DUTY;
 

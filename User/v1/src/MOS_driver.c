@@ -1,38 +1,34 @@
 #include "MOS_driver.h"
 
 void MosDriver_TIMER_init() {
-  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_MASTER);
-  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_TIMER_A);
-  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_TIMER_B);
+  HAL_HRTIM_WaveformCounterStart(&hhrtim1, HRTIM_TIMERID_MASTER);
+  HAL_HRTIM_WaveformCounterStart(&hhrtim1, HRTIM_TIMERID_TIMER_A);
+  HAL_HRTIM_WaveformCounterStart(&hhrtim1, HRTIM_TIMERID_TIMER_B);
 }
 
 
-void MosDriver_CHANCEL_init() {
+void MosDriver_OUTPUT_init() {
   HAL_HRTIM_WaveformOutputStart(&hhrtim1, HRTIM_OUTPUT_TA1 | HRTIM_OUTPUT_TA2 |
                                               HRTIM_OUTPUT_TB1 |
                                               HRTIM_OUTPUT_TB2);
 }
 
 
-void MosDriver_chassis_set(uint16_t chassis_duty, mosdriver *driver) {
+void MosDriver_chassis_set(float chassis_duty, mosdriver *driver) {
   driver->chassis_compare1_index =
-      HALF_CYCLE_INDEX - 0.9 * chassis_duty * CYCLE_INDEX;
+      HALF_CYCLE_INDEX - 0.9 * chassis_duty * HALF_CYCLE_INDEX;
   driver->chassis_compare3_index =
-      HALF_CYCLE_INDEX + 0.9 * chassis_duty * CYCLE_INDEX;
-  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERID_TIMER_A, HRTIM_COMPAREUNIT_1,
-                         driver->chassis_compare1_index);
-  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERID_TIMER_A, HRTIM_COMPAREUNIT_3,
-                         driver->chassis_compare3_index);
+      HALF_CYCLE_INDEX + 0.9 * chassis_duty * HALF_CYCLE_INDEX;
+  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, driver->chassis_compare1_index);
+  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A,HRTIM_COMPAREUNIT_3, driver->chassis_compare3_index);
 }
 
 
-void MosDriver_cap_set(uint16_t cap_duty, mosdriver *driver) {
-  driver->cap_compare1_index = HALF_CYCLE_INDEX - 0.9 * cap_duty * CYCLE_INDEX;
-  driver->cap_compare3_index = HALF_CYCLE_INDEX + 0.9 * cap_duty * CYCLE_INDEX;
-  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERID_TIMER_B, HRTIM_COMPAREUNIT_1,
-                         driver->cap_compare1_index);
-  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERID_TIMER_B, HRTIM_COMPAREUNIT_3,
-                         driver->cap_compare3_index);
+void MosDriver_cap_set(float cap_duty, mosdriver *driver) {
+  driver->cap_compare1_index = HALF_CYCLE_INDEX - 0.9 * cap_duty * HALF_CYCLE_INDEX;
+  driver->cap_compare3_index = HALF_CYCLE_INDEX + 0.9 * cap_duty * HALF_CYCLE_INDEX;
+  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, HRTIM_COMPAREUNIT_1, driver->cap_compare1_index);
+  __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, HRTIM_COMPAREUNIT_3, driver->cap_compare3_index);
 }
 
 
@@ -44,10 +40,6 @@ void MosDriver_init(mosdriver *driver) {
   driver->Phase_shift_angle=0.0;
   driver->chassis_duty=0.0;
   driver->cap_duty=0.0;
-  
-  MosDriver_TIMER_init();
-  HAL_Delay(2);
-  MosDriver_CHANCEL_init();
 }
 
 
@@ -74,12 +66,12 @@ void MosDriver_dutylimit(mosdriver* driver, float duty)
     }
     if(duty<1.0)
     {
-        MosDriver_chassis_set(duty,driver);
-        MosDriver_cap_set(1.0,driver);
+        MosDriver_chassis_set(0.75,driver);
+        MosDriver_cap_set(0.25,driver);
     }
     else
     {
-        MosDriver_chassis_set(1.0,driver);
-        MosDriver_cap_set(1-duty,driver);
+        MosDriver_chassis_set(0.75,driver);
+        MosDriver_cap_set(0.25,driver);
     }
 }

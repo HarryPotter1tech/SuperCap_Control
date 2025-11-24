@@ -4,7 +4,7 @@
 const int RMCS_ID = 0x01;   // RMCS 设备ID
 const int LEGGED_ID = 0x02; // Legged 设备ID
 const uint32_t SUPERCAP_ID[4][3] = { {0x12345678, 0x9ABCDEF0, 0x13579BDF}, 
-                                    {0x22345678, 0x9ABCDEF0, 0x13579BDF}, 
+                                    {0x001A0044, 0x59315007, 0x20393448}, 
                                     {0x32345678, 0x9ABCDEF0, 0x13579BDF}, 
                                     {0x42345678, 0x9ABCDEF0, 0x13579BDF} }; // Supercap 设备ID//测试板的ID
 
@@ -32,8 +32,8 @@ const float V_CAP_MIN = 4.0f;
 const float I_CAP_MAX = 15.0f;
 
 //开关管驱动参数
-const float CYCLE_INDEX = 27200.0f;
-const float HALF_CYCLE_INDEX = CYCLE_INDEX / 2;
+const uint32_t CYCLE_INDEX = 27200;
+const uint32_t HALF_CYCLE_INDEX = CYCLE_INDEX / 2;
 const float MAX_DUTY = V_CAP_MAX / V_CHASSIS_MIN;
 const float MIN_DUTY = V_CAP_MIN / V_CHASSIS_MAX;
 

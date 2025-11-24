@@ -1,4 +1,7 @@
 #include "Data_collect.h"
+#include "adc.h"
+#include "stm32g4xx_hal.h"
+#include "stm32g4xx_hal_adc_ex.h"
 
 void Data_init(datacollect *data) {
   data->V_CHASSIS_ADC = 0;
@@ -12,16 +15,22 @@ void Data_init(datacollect *data) {
   for (int i = 0; i < 4; i++) {
     data->DataArray[i] = 0;
   }
+  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+  HAL_Delay(10);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)data->DataArray, 4);
 }
-
 
 void Data_process(datacollect *data)//这里还需要进一步的数据转换y=kx+b，要把adc值转换成实际的电压电流值.应该还会有一个函数 Data_collect_to_real()
 {
   data->V_CHASSIS_ADC=data->DataArray[0];
   data->I_CHASSIS_ADC=data->DataArray[1];
-  data->V_CAP_ADC=data->DataArray[2];
-  data->I_CAP_ADC=data->DataArray[3];
-  ADC_Calibration(data);
+  data->I_CAP_ADC=data->DataArray[2];
+  data->V_CAP_ADC=data->DataArray[3];
+  //data->V_CHASSIS_TF=(float)data->V_CHASSIS_ADC/4096.0*3.3*11.0;//分压比11:1
+  //data->I_CHASSIS_TF=(float)(data->I_CHASSIS_ADC/4096.0*3.3-1.65)/0.1;//采样电阻0.01欧姆
+  //data->V_CAP_TF=(float)data->V_CAP_ADC/4096.0*3.3*11.0;//分压比11:1
+  //Sdata->I_CAP_TF=(float)(data->I_CAP_ADC/4096.0*3.3-1.65)/0.1;//采样电阻0.01欧姆
+  //ADC_Calibration(data);
 }
 
 

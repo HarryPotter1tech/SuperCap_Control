@@ -1,5 +1,6 @@
 #include "SuperCap_init.h"
 #include "CAN_communicate.h"
+#include "MOS_driver.h"
 #include "PID_controller.h"
 #include "module_data.h"
 
@@ -7,6 +8,7 @@ void SuperCap_init(void) {
     if (ADC_ID_init()) {
         CAN_init();
         MosDriver_init(&mos_driver);
+        MosDriver_TIMER_init();
         Data_init(&adc_data);
         PID_init(&current_pid_configs);
         PID_init(&voltage_pid_configs);
@@ -18,7 +20,11 @@ void SuperCap_init(void) {
 }
 
 void SuperCap_softstart() {
-    HAL_Delay(20);//等待数据获取，ADC采样-转换完成
-    float general_duty =Get_voltage_chassis(&adc_data)/Get_voltage_cap(&adc_data);
-    MosDriver_dutylimit(&mos_driver, general_duty);
+    HAL_Delay(10);//等待数据获取，ADC采样-转换完成
+    Data_process(&adc_data);
+    float general_duty = 0.6;
+    MosDriver_cap_set(general_duty, &mos_driver);
+    MosDriver_chassis_set(1-general_duty, &mos_driver);
+    //MosDriver_dutylimit(&mos_driver, general_duty);
+    HAL_Delay(10);//等待软启动完成
 }

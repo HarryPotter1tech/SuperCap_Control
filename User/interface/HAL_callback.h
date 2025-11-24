@@ -1,13 +1,14 @@
 #pragma once
+#include "ADC_Calibration.h"
+#include "CAN_communicate.h"
 #include "Data_collect.h"
-#include "module_data.h"
+#include "MOS_driver.h"
+#include "PID_controller.h"
 #include "const_data.h"
-#include "adc.h"
-#include "hrtim.h"
-#include "tim.h"
-#include "stm32g4xx_hal_adc.h"
-#include "stm32g4xx_hal_hrtim.h"
+#include "module_data.h"
+#include "stm32g474xx.h"
 #include "stm32g4xx_hal_tim.h"
+#include "tim.h"
 
 void HAL_FDCAN_RxFifo0Msgallback(FDCAN_HandleTypeDef *hfdcan);
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc);

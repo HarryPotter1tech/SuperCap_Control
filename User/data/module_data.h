@@ -1,7 +1,6 @@
 #pragma once
 #include <stdint.h>
 #include <stdbool.h>
-#include <sys/_intsup.h>
 
 // 控制算法开关（放在枚举之外，作为独立的常量）
 #define control_v1 0 // 控制算法v1
@@ -36,27 +35,31 @@ typedef struct {
 
 // MOS_driver模块的数据结构体定义
 typedef struct {
-  uint16_t cap_compare1_index;
-  uint16_t cap_compare3_index;
-  uint16_t chassis_compare1_index;
-  uint16_t chassis_compare3_index;
-  uint16_t compare4_index;//触发采样的比较值
-  uint16_t Phase_shift_angle;
-  uint16_t cap_duty;
-  uint16_t chassis_duty;
+  uint32_t cap_compare1_index;
+  uint32_t cap_compare3_index;
+  uint32_t chassis_compare1_index;
+  uint32_t chassis_compare3_index;
+  uint32_t compare4_index;//触发采样的比较值
+  uint32_t Phase_shift_angle;
+  uint32_t cap_duty;
+  uint32_t chassis_duty;
 } mosdriver;
 
 // Data_collect模块的数据结构体定义
 typedef struct {
   uint16_t V_CHASSIS_ADC; // 底盘端电压
   uint16_t I_CHASSIS_ADC; // 底盘端电流
-  uint16_t V_CAP_ADC;     // 电容组端电压
   uint16_t I_CAP_ADC;     // 电容组端电流
-  uint32_t DataArray[4];  // ADC采样数组
+  uint16_t V_CAP_ADC;     // 电容组端电压
+  uint16_t DataArray[4];  // ADC采样数组
   uint16_t V_CHASSIS_REAL; // 底盘端真实电压
   uint16_t I_CHASSIS_REAL; // 底盘端真实电流
   uint16_t V_CAP_REAL;     // 电容组端真实电压
   uint16_t I_CAP_REAL;     // 电容组端真实电流
+  float V_CHASSIS_TF;    // 底盘端电压
+  float I_CHASSIS_TF;    // 底盘端电流
+  float V_CAP_TF;        // 电容组端电压
+  float I_CAP_TF;        // 电容组端电流
 } datacollect;
 
 // PID_controller模块的数据结构体定义
