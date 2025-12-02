@@ -24,6 +24,7 @@ extern const float V_CAP_MIN;
 extern const float I_CAP_MAX;
 
 //开关管驱动参数
+extern const uint32_t CYCLE_ZERO;
 extern const uint32_t CYCLE_INDEX;
 extern const uint32_t HALF_CYCLE_INDEX;
 extern const float MAX_DUTY;

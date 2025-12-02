@@ -167,8 +167,6 @@ void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
-  pOutputCfg.SetSource = HRTIM_OUTPUTSET_TIMPER;
-  pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_TIMCMP1;
   if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, HRTIM_OUTPUT_TB1, &pOutputCfg) != HAL_OK)
   {
     Error_Handler();
