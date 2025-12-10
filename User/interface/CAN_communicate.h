@@ -1,9 +1,9 @@
 #pragma once
-#include "const_data.h"
-#include "module_data.h"
 #include "Data_collect.h"
+#include "const_data.h"
 #include "fdcan.h"
 #include "main.h"
+#include "module_data.h"
 #include "stm32g4xx_hal_fdcan.h"
 
 void CAN_init();

@@ -15,9 +15,9 @@ void MosDriver_OUTPUT_init() {
 
 void MosDriver_chassis_set(float chassis_duty, mosdriver *driver) {
   driver->chassis_compare1_index =
-      HALF_CYCLE_INDEX - chassis_duty * HALF_CYCLE_INDEX;
+      HALF_CYCLE_INDEX - chassis_duty * HALF_CYCLE_INDEX * DUTY_INDEX;
   driver->chassis_compare3_index =
-      HALF_CYCLE_INDEX + chassis_duty * HALF_CYCLE_INDEX;
+      HALF_CYCLE_INDEX + chassis_duty * HALF_CYCLE_INDEX * DUTY_INDEX;
   __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A,
                          HRTIM_COMPAREUNIT_1, driver->chassis_compare1_index);
   __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A,
@@ -25,8 +25,10 @@ void MosDriver_chassis_set(float chassis_duty, mosdriver *driver) {
 }
 
 void MosDriver_cap_set(float cap_duty, mosdriver *driver) {
-  driver->cap_compare1_index = CYCLE_INDEX - cap_duty * HALF_CYCLE_INDEX;
-  driver->cap_compare3_index = CYCLE_ZERO + cap_duty * HALF_CYCLE_INDEX;
+  driver->cap_compare1_index =
+      CYCLE_INDEX - cap_duty * HALF_CYCLE_INDEX * DUTY_INDEX;
+  driver->cap_compare3_index =
+      CYCLE_ZERO + cap_duty * HALF_CYCLE_INDEX * DUTY_INDEX;
   __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B,
                          HRTIM_COMPAREUNIT_1, driver->cap_compare1_index);
   __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B,
@@ -39,8 +41,6 @@ void MosDriver_init(mosdriver *driver) {
   driver->cap_compare1_index = 0.0;
   driver->cap_compare3_index = 0.0;
   driver->Phase_shift_angle = 0.0;
-  driver->chassis_duty = 0.0;
-  driver->cap_duty = 0.0;
 }
 
 void MosDriver_stop(mosdriver *driver) {
@@ -61,10 +61,10 @@ void MosDriver_dutylimit(mosdriver *driver, float duty) {
     duty = MIN_DUTY;
   }
   if (duty < 1.0) {
-    MosDriver_chassis_set(0.75, driver);
-    MosDriver_cap_set(0.25, driver);
+    MosDriver_chassis_set(duty, driver);
+    MosDriver_cap_set(1, driver);
   } else {
-    MosDriver_chassis_set(0.75, driver);
-    MosDriver_cap_set(0.25, driver);
+    MosDriver_chassis_set(1, driver);
+    MosDriver_cap_set(1 - 1 / duty, driver);
   }
 }

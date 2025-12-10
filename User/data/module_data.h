@@ -1,6 +1,9 @@
 #pragma once
-#include <stdint.h>
+#include "const_data.h"
+#include "main.h"
+#include "stm32g4xx_hal_fdcan.h"
 #include <stdbool.h>
+#include <stdint.h>
 
 // 控制算法开关（放在枚举之外，作为独立的常量）
 #define control_v1 0 // 控制算法v1
@@ -20,17 +23,18 @@ enum State {
   DCDC_OUTPUT_ENABLE = 1,  // DCDC 输出使能
 }; // enum State
 
-//CAN_communicate模块的数据结构体定义
+// CAN_communicate模块的数据结构体定义
 typedef struct {
-  uint16_t chassis_power;
-  uint16_t supercap_voltage;
-  uint16_t chassis_voltage;
-  uint8_t enabled;
-  uint8_t unused;
+  uint16_t chassis_power;    // 当前底盘功率
+  uint16_t supercap_voltage; // 当前超级电容电压
+  uint16_t chassis_voltage;  // 当前底盘电压
+  uint8_t enabled;           // 是否开启栅极驱动
+  uint8_t unused;            // 标志位，超级电容组是否被使用
 } CAN_TX;
+
 typedef struct {
-  uint16_t targetChassisPower;
-  uint8_t enabled;
+  uint16_t targetChassisPower; // 目标底盘功率
+  uint8_t enabled;             // 是否开启栅极驱动
 } CAN_RX;
 
 // MOS_driver模块的数据结构体定义
@@ -39,27 +43,24 @@ typedef struct {
   uint32_t cap_compare3_index;
   uint32_t chassis_compare1_index;
   uint32_t chassis_compare3_index;
-  uint32_t compare4_index;//触发采样的比较值
-  uint32_t Phase_shift_angle;
-  uint32_t cap_duty;
-  uint32_t chassis_duty;
+  uint32_t compare4_index; // 触发采样的比较值
+
+  uint32_t Phase_shift_angle; // 相位移角度
 } mosdriver;
 
 // Data_collect模块的数据结构体定义
 typedef struct {
-  uint16_t V_CHASSIS_ADC; // 底盘端电压
-  uint16_t I_CHASSIS_ADC; // 底盘端电流
-  uint16_t I_CAP_ADC;     // 电容组端电流
-  uint16_t V_CAP_ADC;     // 电容组端电压
-  uint16_t DataArray[4];  // ADC采样数组
-  uint16_t V_CHASSIS_REAL; // 底盘端真实电压
-  uint16_t I_CHASSIS_REAL; // 底盘端真实电流
-  uint16_t V_CAP_REAL;     // 电容组端真实电压
-  uint16_t I_CAP_REAL;     // 电容组端真实电流
-  float V_CHASSIS_TF;    // 底盘端电压
-  float I_CHASSIS_TF;    // 底盘端电流
-  float V_CAP_TF;        // 电容组端电压
-  float I_CAP_TF;        // 电容组端电流
+  uint16_t DataArray[4]; // ADC采样数组
+
+  uint16_t V_CHASSIS_ADC; // 底盘端电压->ADC值
+  uint16_t I_CHASSIS_ADC; // 底盘端电流->ADC值
+  uint16_t I_CAP_ADC;     // 电容组端电流->ADC值
+  uint16_t V_CAP_ADC;     // 电容组端电压->ADC值
+
+  float V_CHASSIS_TF; // 底盘端电压->转换值
+  float I_CHASSIS_TF; // 底盘端电流->转换值
+  float V_CAP_TF;     // 电容组端电压->转换值
+  float I_CAP_TF;     // 电容组端电流->转换值
 } datacollect;
 
 // PID_controller模块的数据结构体定义
@@ -79,22 +80,24 @@ typedef struct {
 
 // 全局变量声明
 // CAN通信相关全局变量
-extern CAN_TX can_tx;// CAN发送数据结构体
-extern CAN_RX can_rx;// CAN接收数据结构体
+extern CAN_TX can_tx;                           // CAN发送数据结构体
+extern CAN_RX can_rx;                           // CAN接收数据结构体
+extern FDCAN_FilterTypeDef fdcan_filter_config; // CAN过滤器配置结构体
+extern FDCAN_TxHeaderTypeDef fdcan_tx_header;   // CAN发送消息头配置结构体
 
 // MOS驱动相关全局变量
-extern mosdriver mos_driver;// MOS驱动数据结构体
+extern mosdriver mos_driver; // MOS驱动数据结构体
 
 // ADC采集相关全局变量
-extern datacollect adc_data;// ADC采集数据结构体
-extern datacollect adc_calibrated_data;// ADC校准后数据结构体
+extern datacollect adc_data;            // ADC采集数据结构体
+extern datacollect adc_calibrated_data; // ADC校准后数据结构体
 extern float ADC_CALIBRATION_CONFIGS_BOARD[4][2];
 
 // PID控制相关全局变量
-extern PID_Configs current_pid_configs;// 电流环PID配置结构体
-extern PID_Configs voltage_pid_configs;// 电压环PID配置结构体
-extern PID_Configs power_pid_configs;// 功率环PID配置结构体
+extern PID_Configs current_pid_configs; // 电流环PID配置结构体
+extern PID_Configs voltage_pid_configs; // 电压环PID配置结构体
+extern PID_Configs power_pid_configs;   // 功率环PID配置结构体
 
 // 控制算法转换系数
-extern float power_offset_to_voltage;// 功率环输出转电压环目标值的转换系数
-extern float voltage_offset_to_current;// 电压环输出转电流环目标值的转换系数
+extern float power_offset_to_voltage;   // 功率环输出转电压环目标值的转换系数
+extern float voltage_offset_to_current; // 电压环输出转电流环目标值的转换系数

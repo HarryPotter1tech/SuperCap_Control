@@ -69,7 +69,6 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/User/data
     ${CMAKE_SOURCE_DIR}/User/math_tools
     ${CMAKE_SOURCE_DIR}/User/v1/src
-    ${CMAKE_SOURCE_DIR}/WS2812_Driver
     "D:/交叉编译gcc/10 2021.10/arm-none-eabi/include"
 )
 
