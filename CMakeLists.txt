@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
 
+if(DEFINED CMAKE_TOOLCHAIN_FILE)
+  include(${CMAKE_TOOLCHAIN_FILE})
+endif()
+
 #
 # This file is generated only once,
 # and is not re-generated if converter is called multiple times.
@@ -17,9 +21,7 @@ set(CMAKE_C_EXTENSIONS ON)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
-add_compile_definitions(ARM_MATH_CM4;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING)
-add_compile_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16 -O3)
-add_link_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
+
 # Set the project name
 set(CMAKE_PROJECT_NAME SUPERCAP)
 
@@ -31,7 +33,12 @@ project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Enable CMake support for ASM and C languages
-enable_language(C ASM)
+enable_language(C ASM CXX)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
@@ -69,8 +76,10 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/User/data
     ${CMAKE_SOURCE_DIR}/User/math_tools
     ${CMAKE_SOURCE_DIR}/User/v1/src
-    "D:/交叉编译gcc/10 2021.10/arm-none-eabi/include"
 )
+
+# Add include directories for ARM toolchain
+include_directories("C:/Users/Administrator/AppData/Local/stm32cube/gnu-tools-for-stm32/13.3.1+st.9/arm-none-eabi/include")
 
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE

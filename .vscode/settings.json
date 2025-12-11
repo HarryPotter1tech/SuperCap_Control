@@ -6,10 +6,29 @@
     "cmake.preferredGenerators": [
         "Ninja"
     ],
-    "stm32cube-ide-clangd.path": "cube",
-    "stm32cube-ide-clangd.arguments": [
-        "starm-clangd",
-        "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/13.3.1+st.9/bin/arm-none-eabi-gcc.exe",
-        "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/13.3.1+st.9/bin/arm-none-eabi-g++.exe"
-    ]
+    "clangd.fallbackFlags": [
+        "--target=arm-none-eabi",
+        "-mcpu=cortex-m4",
+        "-mfpu=fpv4-sp-d16",
+        "-mfloat-abi=hard",
+        "-std=c++17",
+        "-I${workspaceFolder}/Core/Inc",
+        "-I${workspaceFolder}/Drivers/STM32G4xx_HAL_Driver/Inc",
+        "-I${workspaceFolder}/Drivers/CMSIS/Include",
+        "-I${workspaceFolder}/User",
+        "-I${workspaceFolder}/User/interface",
+        "-I${workspaceFolder}/User/data",
+        "-I${workspaceFolder}/User/math_tools",
+        "-I${workspaceFolder}/User/v1/src"
+    ],
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build"
+    ],
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.cStandard": "c11",
+    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.autocomplete": "default",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4 }"
 }

@@ -8,10 +8,9 @@
 void SuperCap_init(void) {
   if (ADC_ID_init()) {
     CAN_init();
-    Data_init(&adc_data);
     MosDriver_init(&mos_driver);
     MosDriver_TIMER_init();
-    // Data_init(&adc_data);
+    Data_init(&adc_data);
     PID_init(&current_pid_configs);
     PID_init(&voltage_pid_configs);
     PID_init(&power_pid_configs);
