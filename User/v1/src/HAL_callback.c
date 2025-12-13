@@ -36,11 +36,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
             ADC_Transformer_voltage(&adc_data);
             ADC_Transformer_current(&adc_data);
 
-            if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF < 30.0f) {
+            if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 27.0f) {
                 MosDriver_stop(&mos_driver);
             }  // 过流保护&过压保护
+            float target_current = 1.0f;
 
-            PID_calculate(&current_pid_configs, voltage_pid_configs.output,
+            PID_calculate(&current_pid_configs, target_current,
                           adc_data.I_CAP_TF);
             MosDriver_dutylimit(&mos_driver, current_pid_configs.output);
         }
