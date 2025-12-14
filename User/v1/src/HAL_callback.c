@@ -20,11 +20,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
         uint32_t counter = __HAL_TIM_GET_COUNTER(&htim8);
         /*
         // 1kHz 功率环：目标功率 vs 实际功率 (V * I)
-        if (PID_FREQUENCY_INDEX == counter % 100) {
-          PID_calculate(&power_pid_configs, can_rx.targetChassisPower,
-                        adc_data.V_CAP_TF * adc_data.I_CAP_TF);
+        if (PID_FREQUENCY_INDEX == counter % 10) {
+            float targetChassisPower = 50.0f;
+            PID_calculate(&power_pid_configs, targetChassisPower,
+                          adc_data.V_CAP_TF * adc_data.I_CAP_TF);
         }
-
+        */
+        /*
         // 5kHz 电压环：目标电压 (来自功率环) vs 实际电压
         else if (PID_FREQUENCY_INDEX == counter % 20) {
           PID_calculate(&voltage_pid_configs, power_pid_configs.output,
@@ -37,8 +39,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
             ADC_Transformer_current(&adc_data);
 
             if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 27.0f) {
+                MosDriver_dutylimit(&mos_driver, MIN_DUTY);
+            }  // 过流保护&过压保护,直接将占空比设为最小值，快速降低电流电压
+            else if (adc_data.V_CAP_TF > 30.0f) {
                 MosDriver_stop(&mos_driver);
-            }  // 过流保护&过压保护
+            }  // 超过30V直接关断
             float target_current = 1.0f;
 
             PID_calculate(&current_pid_configs, target_current,
