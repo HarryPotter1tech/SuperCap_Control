@@ -15,12 +15,12 @@ void SuperCap_init(void) {
         PID_init(&current_pid_configs);
         PID_init(&voltage_pid_configs);
         PID_init(&power_pid_configs);
-        PID_set(&current_pid_configs, 0.01f, 0.0f, 0.0f, MAX_DUTY, MIN_DUTY,
+        PID_set(&current_pid_configs, 0.2f, 0.01f, 0.0f, MAX_DUTY, MIN_DUTY,
                 true);  // 电流环PID参数设置
-        PID_set(&voltage_pid_configs, 0.0f, 0.00f, 0.0f, V_CAP_MAX, V_CAP_MIN,
+        PID_set(&voltage_pid_configs, 0.0f, 0.0f, 0.0f, V_CAP_MAX, V_CAP_MIN,
                 false);  // 电压环PID参数设置
-        PID_set(&power_pid_configs, 0.0f, 0.00f, 0.0f, P_CHASSIS_MAX,
-                P_CHASSIS_MIN, false);  // 功率环PID参数设置
+        PID_set(&power_pid_configs, 0.011f, 0.00027f, 0.0f, MAX_DUTY, MIN_DUTY,
+                true);  // 功率环PID参数设置
     } else {
         Error_Handler();
     }

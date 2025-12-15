@@ -5,17 +5,17 @@ CAN_TX can_tx;
 CAN_RX can_rx;
 
 // CAN过滤器配置结构体
-FDCAN_FilterTypeDef fdcan_filter_config = {.IdType = FDCAN_STANDARD_ID,
-                                           .FilterIndex = 0,
-                                           .FilterType = FDCAN_FILTER_MASK,
-                                           .FilterConfig =
-                                               FDCAN_FILTER_TO_RXFIFO0,
-                                           .FilterID1 = RMCS_ID,
-                                           .FilterID2 = LEGGED_ID};
+FDCAN_FilterTypeDef fdcan_filter_config = {
+    .IdType = FDCAN_STANDARD_ID,
+    .FilterIndex = 0,
+    .FilterType = FDCAN_FILTER_MASK,
+    .FilterConfig = FDCAN_FILTER_TO_RXFIFO0,
+    .FilterID1 = RMCS_ID,
+    .FilterID2 = LEGGED_ID};
 
 // CAN发送消息头配置
 FDCAN_TxHeaderTypeDef fdcan_tx_header = {
-    .Identifier = 0x300, // 假设这个是超电的id
+    .Identifier = 0x300,  // 假设这个是超电的id
     .IdType = FDCAN_STANDARD_ID,
     .TxFrameType = FDCAN_DATA_FRAME,
     .DataLength = FDCAN_DLC_BYTES_8,
@@ -32,20 +32,20 @@ mosdriver mos_driver;
 datacollect adc_data;
 
 // PID_controller模块的数据结构体实例化
-PID_Configs voltage_pid_configs; // 电压环PID配置结构体全局定义
-PID_Configs current_pid_configs; // 电流环PID配置结构体全局定义
-PID_Configs power_pid_configs;   // 功率环PID配置结构体全局定义
+PID_Configs voltage_pid_configs;  // 电压环PID配置结构体全局定义
+PID_Configs current_pid_configs;  // 电流环PID配置结构体全局定义
+PID_Configs power_pid_configs;    // 功率环PID配置结构体全局定义
 
 // ADC校准配置数组实例化
 float ADC_CALIBRATION_CONFIGS_BOARD[4][2] = {
-    {0.0, 0.0}, // V_CHASSIS
-    {0.0, 0.0}, // I_CHASSIS
-    {0.0, 0.0}, // V_CAP
-    {0.0, 0.0}  // I_CAP
+    {0.0, 0.0},  // V_CHASSIS
+    {0.0, 0.0},  // I_CHASSIS
+    {0.0, 0.0},  // V_CAP
+    {0.0, 0.0}   // I_CAP
 };
 
 // 控制算法Z转换系数实例化
 float power_offset_to_voltage =
-    1.0f; // 功率环输出转电压环目标值的转换系数全局定义
+    1.0f;  // 功率环输出转电压环目标值的转换系数全局定义
 float voltage_offset_to_current =
-    1.0f; // 电压环输出转电流环目标值的转换系数全局定义
+    1.0f;  // 电压环输出转电流环目标值的转换系数全局定义

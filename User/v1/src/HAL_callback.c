@@ -18,38 +18,48 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
     if (htim->Instance == TIM8) {
         uint32_t counter = __HAL_TIM_GET_COUNTER(&htim8);
-        /*
         // 1kHz 功率环：目标功率 vs 实际功率 (V * I)
-        if (PID_FREQUENCY_INDEX == counter % 10) {
-            float targetChassisPower = 50.0f;
-            PID_calculate(&power_pid_configs, targetChassisPower,
-                          adc_data.V_CAP_TF * adc_data.I_CAP_TF);
-        }
-        */
-        /*
-        // 5kHz 电压环：目标电压 (来自功率环) vs 实际电压
-        else if (PID_FREQUENCY_INDEX == counter % 20) {
-          PID_calculate(&voltage_pid_configs, power_pid_configs.output,
-                        adc_data.V_CAP_TF);
-        }
-                        */
-        // 50kHz 电流环：目标电流 (来自电压环) vs 实际电流
         if (PID_FREQUENCY_INDEX == counter % 2) {
             ADC_Transformer_voltage(&adc_data);
             ADC_Transformer_current(&adc_data);
-
             if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 27.0f) {
                 MosDriver_dutylimit(&mos_driver, MIN_DUTY);
             }  // 过流保护&过压保护,直接将占空比设为最小值，快速降低电流电压
             else if (adc_data.V_CAP_TF > 30.0f) {
                 MosDriver_stop(&mos_driver);
             }  // 超过30V直接关断
-            float target_current = 1.0f;
-
-            PID_calculate(&current_pid_configs, target_current,
-                          adc_data.I_CAP_TF);
-            MosDriver_dutylimit(&mos_driver, current_pid_configs.output);
+            float targetChassisPower = 48.0f;
+            float target_current = targetChassisPower / adc_data.V_CHASSIS_TF;
+            PID_calculate(&power_pid_configs, target_current,
+                          adc_data.I_CHASSIS_TF);
+            MosDriver_dutylimit(&mos_driver, power_pid_configs.output);
         }
+        /*
+        // 5kHz 电压环：目标电压 (来自功率环) vs 实际电压
+        else if (PID_FREQUENCY_INDEX == counter % 20) {
+          PID_calculate(&voltage_pid_configs, power_pid_configs.output,
+                        adc_data.V_CAP_TF);
+        }
+        */
+        /*
+         // 50kHz 电流环：目标电流 (来自电压环) vs 实际电流
+         if (PID_FREQUENCY_INDEX == counter % 2) {
+             ADC_Transformer_voltage(&adc_data);
+             ADC_Transformer_current(&adc_data);
+
+             if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 27.0f) {
+                 MosDriver_dutylimit(&mos_driver, MIN_DUTY);
+             }  // 过流保护&过压保护,直接将占空比设为最小值，快速降低电流电压
+             else if (adc_data.V_CAP_TF > 30.0f) {
+                 MosDriver_stop(&mos_driver);
+             }  // 超过30V直接关断
+             float target_current = 8.0f;
+
+             PID_calculate(&current_pid_configs, target_current,
+                           adc_data.I_CAP_TF);
+             MosDriver_dutylimit(&mos_driver, current_pid_configs.output);
+         }
+        */
     }
     // 1kHz CAN发送和断连检测
     if (htim->Instance == TIM16) {
