@@ -22,12 +22,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
         if (PID_FREQUENCY_INDEX == counter % 2) {
             ADC_Transformer_voltage(&adc_data);
             ADC_Transformer_current(&adc_data);
-            if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 27.0f) {
+            if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 26.0f) {
                 MosDriver_dutylimit(&mos_driver, MIN_DUTY);
             }  // 过流保护&过压保护,直接将占空比设为最小值，快速降低电流电压
-            else if (adc_data.V_CAP_TF > 30.0f) {
-                MosDriver_stop(&mos_driver);
-            }  // 超过30V直接关断
             float targetChassisPower = 48.0f;
             float target_current = targetChassisPower / adc_data.V_CHASSIS_TF;
             PID_calculate(&power_pid_configs, target_current,
@@ -41,25 +38,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
                         adc_data.V_CAP_TF);
         }
         */
-        /*
-         // 50kHz 电流环：目标电流 (来自电压环) vs 实际电流
-         if (PID_FREQUENCY_INDEX == counter % 2) {
-             ADC_Transformer_voltage(&adc_data);
-             ADC_Transformer_current(&adc_data);
 
-             if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 27.0f) {
-                 MosDriver_dutylimit(&mos_driver, MIN_DUTY);
-             }  // 过流保护&过压保护,直接将占空比设为最小值，快速降低电流电压
-             else if (adc_data.V_CAP_TF > 30.0f) {
-                 MosDriver_stop(&mos_driver);
-             }  // 超过30V直接关断
-             float target_current = 8.0f;
+        // 50kHz 电流环：目标电流 (来自电压环) vs 实际电流
+        if (PID_FREQUENCY_INDEX == counter % 2) {
+            ADC_Transformer_voltage(&adc_data);
+            ADC_Transformer_current(&adc_data);
 
-             PID_calculate(&current_pid_configs, target_current,
-                           adc_data.I_CAP_TF);
-             MosDriver_dutylimit(&mos_driver, current_pid_configs.output);
-         }
-        */
+            if (adc_data.I_CAP_TF > 15.0f || adc_data.V_CAP_TF > 26.0f) {
+                MosDriver_dutylimit(&mos_driver, MIN_DUTY);
+            }  // 过流保护&过压保护,直接将占空比设为最小值，快速降低电流电压
+            float target_current = 8.0f;
+
+            PID_calculate(&current_pid_configs, target_current,
+                          adc_data.I_CAP_TF);
+            MosDriver_dutylimit(&mos_driver, current_pid_configs.output);
+        }
     }
     // 1kHz CAN发送和断连检测
     if (htim->Instance == TIM16) {

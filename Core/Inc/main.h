@@ -65,6 +65,10 @@ void Error_Handler(void);
 #define I_CAP_ADC_GPIO_Port GPIOA
 #define V_CAP_ADC_Pin GPIO_PIN_3
 #define V_CAP_ADC_GPIO_Port GPIOA
+#define BUZZER_Pin GPIO_PIN_5
+#define BUZZER_GPIO_Port GPIOA
+#define WS2812_Pin GPIO_PIN_10
+#define WS2812_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
