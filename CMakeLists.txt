@@ -21,7 +21,9 @@ set(CMAKE_C_EXTENSIONS ON)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
-
+add_compile_definitions(ARM_MATH_CM4;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING)
+add_compile_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16 -O3)
+add_link_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
 # Set the project name
 set(CMAKE_PROJECT_NAME SUPERCAP)
 

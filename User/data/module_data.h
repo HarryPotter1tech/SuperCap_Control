@@ -75,6 +75,7 @@ typedef struct {
     float output;
     float OUT_MAX;
     float OUT_MIN;
+    float target_value;
     bool SWITCH;
 } PID_Configs;
 
@@ -97,7 +98,4 @@ extern float ADC_CALIBRATION_CONFIGS_BOARD[4][2];
 extern PID_Configs current_pid_configs;  // 电流环PID配置结构体
 extern PID_Configs voltage_pid_configs;  // 电压环PID配置结构体
 extern PID_Configs power_pid_configs;    // 功率环PID配置结构体
-
-// 控制算法转换系数
-extern float power_offset_to_voltage;    // 功率环输出转电压环目标值的转换系数
-extern float voltage_offset_to_current;  // 电压环输出转电流环目标值的转换系数
+extern float chassis_power;              // 当前底盘功率

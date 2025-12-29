@@ -28,19 +28,20 @@ const float P_CHASSIS_MIN = 35.0f;  // 底盘能量消耗至0后，机器人进�
 // 超级电容工作电压、电流范围
 const float V_CAP_MAX = 26.0f;
 const float V_CAP_MIN = 4.0f;
-const float I_CAP_MAX = 15.0f;
+const float I_CAP_MAX = 10.0f;
+const float I_CAP_MIN = -10.0f;
 
 // 开关管驱动参数
 const uint32_t CYCLE_ZERO = 0;
 const uint32_t CYCLE_INDEX = 27200;
 const uint32_t HALF_CYCLE_INDEX = CYCLE_INDEX / 2;
 const float DUTY_INDEX = 0.9f;
-const float MAX_DUTY = 0.54f;  // 13.0f / 24.0f最大占空比限制
-const float MIN_DUTY = 0.15f;  // 2.0 / 13.0f最小占空比限制
+const float MAX_DUTY = 0.51f;  // 13.0f / 24.0f最大占空比限制
+const float MIN_DUTY = 0.16f;  // 2.0 / 13.0f最小占空比限制
 
 // 保护机制时间常数定义
-const int MAX_POWER_LOST_DETECTION_TIME = 1000;     // 最大掉电检测时间
+const int MAX_POWER_ERROR_DETECTION_TIME = 500;     // 最大底盘电压异常检测时间
 const int MAX_CAN_DISCONNECT_DETECTION_TIME = 500;  // 最大CAN断联检测时间
-int POWER_LOST_DETECTION_TIME_INDEX = 0;            // 掉电检测时间计数变量
-int CAN_DISCONNECT_DETECTION_TIME_INDEX = 0;        // CAN断联检测时间计数变量
-uint32_t PID_FREQUENCY_INDEX = 0;                   // PID控制频率计数变量
+int POWER_ERROR_DETECTION_TIME_INDEX = 0;     // 底盘电压异常检测时间计数变量
+int CAN_DISCONNECT_DETECTION_TIME_INDEX = 0;  // CAN断联检测时间计数变量
+uint32_t PID_FREQUENCY_INDEX = 0;             // PID控制频率计数变量

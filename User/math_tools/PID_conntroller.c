@@ -5,6 +5,8 @@ void PID_init(PID_Configs* pid_configs) {
     pid_configs->pre_error = 0;
     pid_configs->pre_pre_error = 0;
     pid_configs->output = 0;
+    pid_configs->target_value = P_CHASSIS_MIN;
+    // 为了防止掉电再上电后,CAN还没来得及发送当前需求功率，PID会先以最小功率要求运行
 }
 
 void PID_set(PID_Configs* pid_configs, float Kp, float Ki, float Kd,
@@ -15,6 +17,7 @@ void PID_set(PID_Configs* pid_configs, float Kp, float Ki, float Kd,
     pid_configs->Kd = Kd;
     pid_configs->OUT_MAX = OUT_MAX;
     pid_configs->OUT_MIN = OUT_MIN;
+    pid_configs->target_value = P_CHASSIS_MIN;
 }
 
 void PID_calculate(PID_Configs* pid_configs, float target_point,

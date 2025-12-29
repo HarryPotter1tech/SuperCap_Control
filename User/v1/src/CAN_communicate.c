@@ -48,7 +48,8 @@ void CAN_send() {
         // MosDriver_stop(&mos_driver);
         can_tx.enabled = 0;  // 超过最大CAN断连检测时间，认为CAN断连，关闭半桥
     }
-    CAN_DISCONNECT_DETECTION_TIME_INDEX++;  // CAN断连检测计数变量自增,正常情况下，CAN断连检测计数变量会在收到信息后重置，根据CAN发送频率1KHz,最多500ms未收到信息则判定为断连
+    CAN_DISCONNECT_DETECTION_TIME_INDEX++;
+    // CAN断连检测计数变量自增,正常情况下，CAN断连检测计数变量会在收到信息后重置，根据CAN发送频率1KHz,最多500ms未收到信息则判定为断连
 }
 
 void CAN_receive() {
@@ -68,6 +69,7 @@ void CAN_receive() {
             } else if (can_rx.targetChassisPower < P_CHASSIS_MIN) {
                 can_rx.targetChassisPower = P_CHASSIS_MIN;
             }
+            // 避免上位机发送功率错误导致的功率控制异常
         }
     }
     CAN_DISCONNECT_DETECTION_TIME_INDEX =
